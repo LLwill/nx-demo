@@ -1,0 +1,36 @@
+{
+  "name": "插件测试",
+  "version": "0.0.1",
+  "description": "插件测试测试！！！",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": ["storage", "declarativeContent", "tabs", "activeTab"],
+  "host_permissions": [],
+  "web_accessible_resources": [
+    {
+      "resources": ["/images/*.png"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "action": {},
+  "icons": {
+    "16": "/images/app.png",
+    "32": "/images/app.png",
+    "48": "/images/app.png",
+    "128": "/images/app.png"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+M",
+        "mac": "Command+M"
+      }
+    }
+  }
+}
