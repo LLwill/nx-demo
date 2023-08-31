@@ -4,10 +4,13 @@
     "outDir": "../../dist/out-tsc",
     "types": [
       "node",
-
       "@nx/react/typings/cssmodule.d.ts",
-      "@nx/react/typings/image.d.ts"
-    ]
+      "@nx/react/typings/image.d.ts",
+      "chrome"
+    ],
+    "paths": {
+      "@/*": ["apps/extension/src/*"]
+    }
   },
   "exclude": [
     "jest.config.ts",

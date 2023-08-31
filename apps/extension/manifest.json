@@ -3,21 +3,20 @@
   "version": "0.0.1",
   "description": "插件测试测试！！！",
   "manifest_version": 3,
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
-      "run_at": "document_idle"
-    }
-  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }],
   "permissions": ["storage", "declarativeContent", "tabs", "activeTab"],
   "host_permissions": [],
-  "web_accessible_resources": [
-    {
-      "resources": ["/images/*.png"],
-      "matches": ["<all_urls>"]
-    }
-  ],
+  "web_accessible_resources": [{
+    "resources": ["/images/*.png"],
+    "matches": ["<all_urls>"]
+  }],
   "action": {},
   "icons": {
     "16": "/images/app.png",

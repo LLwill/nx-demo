@@ -11,7 +11,6 @@
       "options": {
         "compiler": "babel",
         "outputPath": "dist/apps/extension",
-        "index": "apps/extension/src/index.html",
         "baseHref": "/",
         "main": "apps/extension/src/main.tsx",
         "tsConfig": "apps/extension/tsconfig.app.json",
@@ -22,7 +21,10 @@
         "styles": ["apps/extension/src/styles.less"],
         "scripts": [],
         "isolatedConfig": true,
-        "webpackConfig": "apps/extension/webpack.config.js"
+        "webpackConfig": "apps/extension/webpack.config.js",
+        "outputFileName": "content.js",
+        "runtimeChunk": false,
+        "extractCss": false
       },
       "configurations": {
         "development": {
@@ -32,14 +34,12 @@
           "vendorChunk": true
         },
         "production": {
-          "fileReplacements": [
-            {
-              "replace": "apps/extension/src/environments/environment.ts",
-              "with": "apps/extension/src/environments/environment.prod.ts"
-            }
-          ],
+          "fileReplacements": [{
+            "replace": "apps/extension/src/environments/environment.ts",
+            "with": "apps/extension/src/environments/environment.prod.ts"
+          }],
           "optimization": true,
-          "outputHashing": "all",
+          "outputHashing": "media",
           "sourceMap": false,
           "namedChunks": false,
           "extractLicenses": true,
