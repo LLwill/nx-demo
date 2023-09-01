@@ -4,6 +4,7 @@ import {
   MSG_REQUEST,
   MSG_REQUEST_STREAM_PAUSE,
 } from '@/constants';
+import { umiRequest } from '@nx-demo/utils';
 
 // manifest.json 的 Permissions配置需添加 declarativeContent 权限
 Browser.runtime.onInstalled.addListener(function (info) {
@@ -44,4 +45,22 @@ async function openExtension(tab: any) {
 // 点击插件图标打开插件
 Browser.action.onClicked.addListener(async (tab) => {
   await openExtension(tab);
+});
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  // 接收来自 content script 的消息，requset 里不允许传递 function 和 file 类型的参数
+  chrome.tabs.query({ currentWindow: true, active: true }, async (tabs) => {
+    const { type, data } = message;
+    // 处理常规请求
+    if (type === MSG_REQUEST) {
+      /** 返回content的数据c格式以 success 状态来判断是否成功 */
+      try {
+        const resp = await umiRequest(data.url, data.options);
+        sendResponse({ success: true, data: resp });
+      } catch (e) {
+        sendResponse({ success: false, data: e });
+      }
+    }
+  });
+  return true;
 });
