@@ -7,6 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const { workspaceRoot } = require('@nx/devkit');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 const appPath = path.resolve(workspaceRoot, 'apps/extension');
 
@@ -39,6 +40,7 @@ module.exports = composePlugins(withNx(), (config, { options, context }) => {
   // Update the webpack config as needed here.
   // e.g. `config.plugins.push(new MyPlugin())`
   const __config = merge(config, {
+    // target: ['node'],
     entry: {
       background: './src/background/index.ts',
     },
@@ -58,7 +60,11 @@ module.exports = composePlugins(withNx(), (config, { options, context }) => {
           },
         ],
       }),
-      new webpack.DefinePlugin(getClientEnvironment()),
+      new webpack.DefinePlugin({
+        ...getClientEnvironment(),
+        global: 'globalThis',
+      }),
+      new NodePolyfillPlugin(),
     ],
     module: {
       rules: [

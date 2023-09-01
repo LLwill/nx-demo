@@ -54,12 +54,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     // 处理常规请求
     if (type === MSG_REQUEST) {
       /** 返回content的数据c格式以 success 状态来判断是否成功 */
-      try {
-        const resp = await umiRequest(data.url, data.options);
-        sendResponse({ success: true, data: resp });
-      } catch (e) {
-        sendResponse({ success: false, data: e });
-      }
+      const resp = await umiRequest(data.url, data.options);
+      sendResponse(resp);
     }
   });
   return true;

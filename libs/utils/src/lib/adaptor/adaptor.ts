@@ -3,7 +3,7 @@
  * 文档: https://umijs.org/zh-CN/plugins/plugin-request#errorconfigadaptor
  */
 export function adaptor(resData: any) {
-  console.log('执行 adaptor');
+  console.log(resData, '执行 adaptor');
   if (resData instanceof Blob || resData instanceof ArrayBuffer) {
     return {
       resData,

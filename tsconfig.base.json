@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@/constants": ["constants.tsx"],
+      "@/constants": ["libs/utils/constants.tsx"],
+      "@/utils/*": ["libs/utils/src/lib/*"],
       "@nx-demo/components": ["libs/components/src/index.ts"],
       "@nx-demo/containers": ["libs/containers/src/index.ts"],
       "@nx-demo/packages": ["libs/packages/src/index.ts"],

@@ -2,7 +2,7 @@
  * 网络请求异常处理程序
  */
 import { notification, message } from 'antd';
-import { setSessionValue, getSessionValue } from '@nx-demo/utils';
+import { setSessionValue, getSessionValue } from '@/utils/storage/storage';
 import { MSG_RESPONSE_ERROR } from '@/constants';
 
 /**
@@ -88,10 +88,12 @@ const errorHandler = async (error: any) => {
 const responseMiddleware = async (res: any) => {
   const response = await res.clone().json();
 
+  console.log(response, 'responseMiddleware');
+
   const { statusCode } = response || {};
   // 只有在内部的状态码不为200的情况下才会手动reject, 其他情况都走通用的判断逻辑
   if (res?.status === 200 && statusCode !== 200) {
-    return Promise.reject({ response });
+    return Promise.reject({ ...response });
   }
   return Promise.resolve(res);
 };

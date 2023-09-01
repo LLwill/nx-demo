@@ -18,12 +18,14 @@ export interface HomeProps {}
 
 export function Home(props: HomeProps) {
   const [text, setText] = useState('没有设置呢');
+  const [welcome, setWelcome] = useState('没有设置呢');
 
   const { run: getWelcomeRun, data: welcomeData } = useRequest(getWelcome, {
     manual: true,
-    onSuccess: (res) => {
+    onSuccess: (res, params) => {
       const { welcome } = res;
-      console.log(welcome, 'welcome');
+      console.log(res, welcome, params, 'welcome');
+      setWelcome(welcome);
     },
   });
 
@@ -55,6 +57,7 @@ export function Home(props: HomeProps) {
       <Button onClick={getText}>获取storage</Button>
       <Button onClick={() => resetText()}>移除storage</Button>
       <Button onClick={onHandleGetWelcome}>获取欢迎语</Button>
+      <div>欢迎语：{welcome}</div>
       <Header />
       <RobotList />
     </div>

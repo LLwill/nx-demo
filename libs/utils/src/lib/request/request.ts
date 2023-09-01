@@ -8,9 +8,9 @@ import type {
 import {
   errorHandler,
   responseMiddleware,
-  adaptor,
-  isExtension,
-} from '@nx-demo/utils';
+} from '@/utils/error-handlers/error-handlers';
+import { adaptor } from '@/utils/adaptor/adaptor';
+import { isExtension, API_DOMAIN } from '@/utils/utils';
 import { MSG_REQUEST } from '@/constants';
 
 type IOptions =
@@ -19,9 +19,9 @@ type IOptions =
   | RequestOptionsWithoutResponse
   | undefined;
 
-export const umiRequest = extend({
+const __umiRequest = extend({
   credentials: 'include',
-  prefix: 'https://yapi.mlamp.cn/mock/858/',
+  prefix: API_DOMAIN,
   headers: {
     'extension-version': '1.1.0',
     // 'extension-version': PRODUCT_VERSION
@@ -31,12 +31,31 @@ export const umiRequest = extend({
   errorConfig: {
     adaptor,
   },
+  parseResponse: false,
 });
 
 // 响应拦截器
-umiRequest.interceptors.response.use((response) => {
+__umiRequest.interceptors.response.use((response) => {
   return responseMiddleware(response);
 });
+
+export async function umiRequest(url: string, options: IOptions) {
+  try {
+    const response = await __umiRequest(url, options);
+    const parseResponse = await response.clone().json();
+    console.log(response, parseResponse, '__umiRequest');
+    return {
+      success: true,
+      data: {
+        ...parseResponse?.data,
+        __parseResponse: parseResponse,
+        __response: response,
+      },
+    };
+  } catch (e) {
+    return { success: false, data: e };
+  }
+}
 
 // API 请求正常，数据正常
 export const API_CODE = {
@@ -52,32 +71,6 @@ export const API_CODE = {
 // API 请求异常报错内容
 export const API_FAILED = '网络连接异常，请稍后再试';
 
-// 委托 background 执行请求
-export const sendRequestToBackground = (url: string, options: IOptions) => {
-  return new Promise((resolve, reject) => {
-    // chrome.runtime.sendMessage 中只能传递 JSON 数据，不能传递 file 类型数据，因此直接从 popup 发起请求。
-    // The message to send. This message should be a JSON-ifiable object.
-    // 详情参阅：https://developer.chrome.com/extensions/runtime#method-sendMessage
-    if (isExtension && chrome?.runtime) {
-      chrome.runtime.sendMessage(
-        { type: MSG_REQUEST, data: { url, options } },
-        (result) => {
-          // 接收background script的sendResponse方法返回的消数据result
-          // 只接收结果，根据不同的 success 的状态 返回 resolve 和 reject （具体返回的数据格式由backgroud script的sendResponse来定义）
-          // todo 返回 Promise
-          if (result?.success) {
-            resolve(result?.data);
-          } else {
-            reject(result?.data);
-          }
-        }
-      );
-    } else {
-      console.log('未找到chrome API');
-    }
-  });
-};
-
 export const request: (
   url: string,
   options: IOptions,
@@ -92,10 +85,17 @@ export const request: (
     _fe_show_message_error: (options as any)._fe_show_message_error ?? true,
   };
   if (background) {
-    // [适用于 build 环境的 content script]委托 background script 发起请求，此种方式只能传递普通 json 数据，不能传递函数及 file 类型数据
-    return sendRequestToBackground(url, finalOptions) as any;
+    const extensionReqest = await require('./request.extension');
+    // 插件
+    return extensionReqest.sendRequestToBackground(url, finalOptions) as any;
   } else {
-    // [适用于 popup 及开发环境的 content script]发起请求
-    return umiRequest(url, finalOptions);
+    // web
+    const result = await umiRequest(url, finalOptions);
+    console.log(result, 'result-web');
+    if (result?.success) {
+      return Promise.resolve(result?.data);
+    } else {
+      return Promise.reject(result?.data);
+    }
   }
 };
