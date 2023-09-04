@@ -16,8 +16,8 @@ export const Home = () => {
       data: {
         windowScreenLeft: window?.screenLeft,
         windowScreenTop: window?.screenTop,
-        windowWidth: window?.innerWidth,
-        windowHeight: window?.innerHeight,
+        windowWidth: window?.outerWidth,
+        windowHeight: window?.outerHeight,
       },
     });
   };

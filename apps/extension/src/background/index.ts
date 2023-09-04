@@ -66,18 +66,16 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       const {
         windowScreenLeft = 0,
         windowScreenTop = 0,
-        windowWidth = 0,
-        windowHeight = 0,
+        windowWidth = tabWindow.width,
+        windowHeight = tabWindow.height,
       } = data;
-      console.log(tabWindow?.width, tabWindow?.height, 'MSG_OPEN_LOGIN');
+
       const leftOffset = windowWidth
         ? Math.round(windowWidth / 2 - popupWidth / 2 + windowScreenLeft)
         : 0;
       const topOffset = windowHeight
         ? Math.round(windowHeight / 2 - popupHeight / 2 + windowScreenTop)
         : 0;
-
-      console.log(leftOffset, topOffset, 'Offset');
 
       Browser.windows.create({
         url: LOGIN_URL,
