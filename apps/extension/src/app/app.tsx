@@ -4,15 +4,24 @@ import styles from './app.module.less';
 
 import NxWelcome from './nx-welcome';
 
-import { Route, Routes, Link } from 'react-router-dom';
+import {
+  Route,
+  Routes,
+  Link,
+  RouterProvider,
+  useNavigate,
+} from 'react-router-dom';
 import Browser from 'webextension-polyfill';
 import { MSG_OPEN_MAIN } from '@/constants';
 import { Home } from '@nx-demo/containers';
+import { Button } from 'antd';
+import { globalRouters } from '../router';
 
 export function App() {
   console.log('😄😄😄插件测试！！！加载App~');
 
   const [mainVisiable, setMainVisiable] = useState<boolean>(false);
+
   useEffect(() => {
     Browser.runtime.onMessage.addListener((message) => {
       const { type } = message;
@@ -27,7 +36,7 @@ export function App() {
   }, [mainVisiable]);
   return mainVisiable ? (
     <div className={styles.main}>
-      <Home />
+      <RouterProvider router={globalRouters} />
     </div>
   ) : (
     <></>

@@ -1,10 +1,11 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import { getThemeConfig } from '@nx-demo/configs';
 
 import App from './app/app';
+
+import styles from './styles.module.less';
 
 // shadow DOM antd 样式解决方案
 import { createCache, StyleProvider } from '@ant-design/cssinjs';
@@ -42,9 +43,7 @@ crxContainer.render(
       autoInsertSpaceInButton={false}
     >
       <StrictMode>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <App />
       </StrictMode>
     </ConfigProvider>
   </StyleProvider>

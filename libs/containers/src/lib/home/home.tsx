@@ -10,6 +10,7 @@ import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { getWelcome } from '@nx-demo/services';
 import useRequest from '@ahooksjs/use-request';
+import { useNavigate } from 'react-router-dom';
 
 const _KEY_ = '__test__';
 
@@ -17,6 +18,7 @@ const _KEY_ = '__test__';
 export interface HomeProps {}
 
 export function Home(props: HomeProps) {
+  const navigate = useNavigate();
   const [text, setText] = useState('没有设置呢');
   const [welcome, setWelcome] = useState('没有设置呢');
 
@@ -46,9 +48,12 @@ export function Home(props: HomeProps) {
   const onHandleGetWelcome = () => {
     getWelcomeRun();
   };
+  const onhandleToUser = () => {
+    navigate('/user');
+  };
   useEffect(() => {
     getText();
-  });
+  }, []);
   return (
     <div className={styles['container']}>
       <div>这是首页</div>
@@ -59,6 +64,7 @@ export function Home(props: HomeProps) {
       <Button onClick={onHandleGetWelcome}>获取欢迎语</Button>
       <div>欢迎语：{welcome}</div>
       <Header />
+      <Button onClick={onhandleToUser}>Container组件中的跳转user</Button>
       <RobotList />
     </div>
   );
