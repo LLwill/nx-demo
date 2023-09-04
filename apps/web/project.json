@@ -29,12 +29,10 @@
           "vendorChunk": true
         },
         "production": {
-          "fileReplacements": [
-            {
-              "replace": "apps/web/src/environments/environment.ts",
-              "with": "apps/web/src/environments/environment.prod.ts"
-            }
-          ],
+          "fileReplacements": [{
+            "replace": "apps/web/src/environments/environment.ts",
+            "with": "apps/web/src/environments/environment.prod.ts"
+          }],
           "optimization": true,
           "outputHashing": "all",
           "sourceMap": false,
@@ -80,6 +78,18 @@
           "ci": true,
           "codeCoverage": true
         }
+      }
+    },
+    "echo": {
+      "executor": "@nx-demo/custom-plugins:echo",
+      "options": {
+        "textToEcho": "Hello World"
+      }
+    },
+    "dev-server": {
+      "executor": "@nx-demo/custom-plugins:dev-server",
+      "options": {
+        "target": "serve"
       }
     }
   },

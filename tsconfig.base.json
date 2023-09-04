@@ -20,6 +20,7 @@
       "@nx-demo/components": ["libs/components/src/index.ts"],
       "@nx-demo/configs": ["configs/src/index.ts"],
       "@nx-demo/containers": ["libs/containers/src/index.ts"],
+      "@nx-demo/custom-plugins": ["libs/custom-plugins/src/index.ts"],
       "@nx-demo/packages": ["libs/packages/src/index.ts"],
       "@nx-demo/services": ["services/src/index.ts"],
       "@nx-demo/utils": ["libs/utils/src/index.ts"]

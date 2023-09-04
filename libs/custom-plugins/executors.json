@@ -1,0 +1,14 @@
+{
+  "executors": {
+    "echo": {
+      "implementation": "./src/executors/echo/executor",
+      "schema": "./src/executors/echo/schema.json",
+      "description": "echo executor"
+    },
+    "dev-server": {
+      "implementation": "./src/executors/dev-server/executor",
+      "schema": "./src/executors/dev-server/schema.json",
+      "description": "dev-server executor"
+    }
+  }
+}
