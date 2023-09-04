@@ -3,8 +3,9 @@ import {
   MSG_OPEN_MAIN,
   MSG_REQUEST,
   MSG_REQUEST_STREAM_PAUSE,
+  MSG_OPEN_LOGIN,
 } from '@/constants';
-import { umiRequest } from '@nx-demo/utils';
+import { umiRequest, LOGIN_URL } from '@nx-demo/utils';
 
 // manifest.json 的 Permissions配置需添加 declarativeContent 权限
 Browser.runtime.onInstalled.addListener(function (info) {
@@ -50,12 +51,42 @@ Browser.action.onClicked.addListener(async (tab) => {
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   // 接收来自 content script 的消息，requset 里不允许传递 function 和 file 类型的参数
   chrome.tabs.query({ currentWindow: true, active: true }, async (tabs) => {
+    const tabWindow = tabs[0];
     const { type, data } = message;
+    console.log(type, data, LOGIN_URL, 'background.js');
     // 处理常规请求
     if (type === MSG_REQUEST) {
       /** 返回content的数据c格式以 success 状态来判断是否成功 */
       const resp = await umiRequest(data.url, data.options);
       sendResponse(resp);
+    }
+    if (type === MSG_OPEN_LOGIN) {
+      const popupWidth = 800;
+      const popupHeight = 720;
+      const {
+        windowScreenLeft = 0,
+        windowScreenTop = 0,
+        windowWidth = 0,
+        windowHeight = 0,
+      } = data;
+      console.log(tabWindow?.width, tabWindow?.height, 'MSG_OPEN_LOGIN');
+      const leftOffset = windowWidth
+        ? Math.round(windowWidth / 2 - popupWidth / 2 + windowScreenLeft)
+        : 0;
+      const topOffset = windowHeight
+        ? Math.round(windowHeight / 2 - popupHeight / 2 + windowScreenTop)
+        : 0;
+
+      console.log(leftOffset, topOffset, 'Offset');
+
+      Browser.windows.create({
+        url: LOGIN_URL,
+        type: 'popup',
+        width: popupWidth,
+        height: popupHeight,
+        left: leftOffset,
+        top: topOffset,
+      });
     }
   });
   return true;
