@@ -1,8 +1,15 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import { ConfigProvider } from 'antd';
+import { getThemeConfig } from '@nx-demo/configs';
 
 import App from './app/app';
+
+// shadow DOM antd 样式解决方案
+import { createCache, StyleProvider } from '@ant-design/cssinjs';
+// 引入Ant Design中文语言包
+import zhCN from 'antd/locale/zh_CN';
 
 // 创建id为CRX-container的div
 const __root__ = document.createElement('div');
@@ -28,9 +35,17 @@ console.log('appendChild!!!');
 const crxContainer = ReactDOM.createRoot(container);
 
 crxContainer.render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>
+  <StyleProvider container={shadowRoot} cache={createCache()}>
+    <ConfigProvider
+      locale={zhCN}
+      theme={getThemeConfig()}
+      autoInsertSpaceInButton={false}
+    >
+      <StrictMode>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </StrictMode>
+    </ConfigProvider>
+  </StyleProvider>
 );

@@ -9,6 +9,7 @@
   "private": true,
   "dependencies": {
     "@ahooksjs/use-request": "^2.8.15",
+    "@ant-design/cssinjs": "^1.17.0",
     "@ant-design/icons": "^5.2.5",
     "@swc/helpers": "~0.5.0",
     "antd": "^5.8.5",
