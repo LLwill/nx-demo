@@ -86,8 +86,8 @@
         "textToEcho": "Hello World"
       }
     },
-    "dev-server": {
-      "executor": "@nx-demo/custom-plugins:dev-server",
+    "dev": {
+      "executor": "@nx-demo/custom-plugins:dev",
       "options": {
         "target": "serve"
       }

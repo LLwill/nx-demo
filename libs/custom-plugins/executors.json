@@ -5,9 +5,9 @@
       "schema": "./src/executors/echo/schema.json",
       "description": "echo executor"
     },
-    "dev-server": {
-      "implementation": "./src/executors/dev-server/executor",
-      "schema": "./src/executors/dev-server/schema.json",
+    "dev": {
+      "implementation": "./src/executors/dev/executor",
+      "schema": "./src/executors/dev/schema.json",
       "description": "dev-server executor"
     }
   }
