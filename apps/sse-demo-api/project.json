@@ -1,0 +1,64 @@
+{
+  "name": "sse-demo-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/sse-demo-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/sse-demo-api",
+        "main": "apps/sse-demo-api/src/main.ts",
+        "tsConfig": "apps/sse-demo-api/tsconfig.app.json",
+        "assets": ["apps/sse-demo-api/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/sse-demo-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "sse-demo-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "sse-demo-api:build:development"
+        },
+        "production": {
+          "buildTarget": "sse-demo-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/sse-demo-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/sse-demo-api/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
