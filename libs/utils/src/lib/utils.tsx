@@ -13,14 +13,15 @@ export function Utils(props: UtilsProps) {
 
 export default Utils;
 
-const ENV = process.env;
-console.log(ENV, 'utils-ENV');
+export const ENV = process.env;
+console.log(ENV, 'utils-ENV-1');
 const {
   NX_PLATFORM,
   NX_API_DOMAIN,
   NX_LOGIN_DOMAIN,
   NX_WEB_PORT,
   NX_LOGIN_PATH,
+  NX_TASK_TARGET_CONFIGURATION,
 } = ENV;
 
 export const isExtension = !!(
@@ -30,3 +31,7 @@ export const isExtension = !!(
 export const API_DOMAIN = NX_API_DOMAIN;
 
 export const LOGIN_URL = `${NX_LOGIN_DOMAIN}:${NX_WEB_PORT}${NX_LOGIN_PATH}`;
+
+export const isDev = () =>
+  NX_TASK_TARGET_CONFIGURATION &&
+  ['development'].includes(NX_TASK_TARGET_CONFIGURATION);

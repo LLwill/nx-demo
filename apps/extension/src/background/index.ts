@@ -5,10 +5,25 @@ import {
   MSG_REQUEST_STREAM_PAUSE,
   MSG_OPEN_LOGIN,
 } from '@/constants';
-import { umiRequest, LOGIN_URL } from '@nx-demo/utils';
+import { umiRequest, LOGIN_URL, ENV, isDev } from '@nx-demo/utils';
 
 // manifest.json 的 Permissions配置需添加 declarativeContent 权限
 Browser.runtime.onInstalled.addListener(function (info) {
+  console.log(ENV, 'runtime');
+  // 开发环境刷新页面
+  if (isDev() && info.reason === 'update') {
+    chrome.tabs.query({ currentWindow: true, active: true }, async (tabs) => {
+      tabs.forEach((tab) => {
+        // 1. reload 页面
+        chrome.tabs.reload(tab.id!).then(() => {
+          setTimeout(() => {
+            openExtension(tab);
+          }, 3000);
+        });
+      });
+    });
+  }
+
   // 默认先禁止Page Action。如果不加这一句，则无法生效下面的规则
   chrome.action.disable();
   chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {

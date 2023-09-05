@@ -29,12 +29,10 @@
           "vendorChunk": true
         },
         "production": {
-          "fileReplacements": [
-            {
-              "replace": "apps/login/src/environments/environment.ts",
-              "with": "apps/login/src/environments/environment.prod.ts"
-            }
-          ],
+          "fileReplacements": [{
+            "replace": "apps/login/src/environments/environment.ts",
+            "with": "apps/login/src/environments/environment.prod.ts"
+          }],
           "optimization": true,
           "outputHashing": "all",
           "sourceMap": false,
@@ -44,7 +42,7 @@
         }
       }
     },
-    "serve": {
+    "_serve": {
       "executor": "@nx/webpack:dev-server",
       "defaultConfiguration": "development",
       "options": {
@@ -82,10 +80,10 @@
         }
       }
     },
-    "dev": {
+    "serve": {
       "executor": "@nx-demo/custom-plugins:dev",
       "options": {
-        "target": "serve"
+        "target": "_serve"
       }
     }
   },

@@ -25,7 +25,7 @@ export const Home = () => {
   return (
     <>
       <ContainerHome />
-      <Button onClick={onHandleToUser}>点击跳转user</Button>
+      <Button onClick={onHandleToUser}>Test点击跳转user</Button>
       <Button onClick={onHandleOpenLogin}>点击登录</Button>
     </>
   );

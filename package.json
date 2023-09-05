@@ -3,9 +3,13 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:web": "nx dev web",
-    "start:login": "nx dev login",
-    "build:ex": "nx build extension"
+    "start:web": "nx serve web",
+    "start:ex": "nx serve extension",
+    "start:login": "nx serve login",
+    "start:e": "nx run-many -t serve -p login,extension",
+    "build:web": "nx build web",
+    "build:ex": "nx build extension",
+    "build:login": "nx build login"
   },
   "private": true,
   "dependencies": {
@@ -49,6 +53,7 @@
     "@types/webextension-polyfill": "^0.10.2",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
+    "@webextension-toolbox/webpack-webextension-plugin": "^3.1.0",
     "babel-jest": "^29.4.1",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",

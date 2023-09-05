@@ -42,7 +42,7 @@
         }
       }
     },
-    "serve": {
+    "_serve": {
       "executor": "@nx/webpack:dev-server",
       "defaultConfiguration": "development",
       "options": {
@@ -86,10 +86,10 @@
         "textToEcho": "Hello World"
       }
     },
-    "dev": {
+    "serve": {
       "executor": "@nx-demo/custom-plugins:dev",
       "options": {
-        "target": "serve"
+        "target": "_serve"
       }
     }
   },

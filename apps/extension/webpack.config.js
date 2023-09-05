@@ -8,6 +8,8 @@ const fs = require('fs');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const { workspaceRoot } = require('@nx/devkit');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const WebextensionPlugin =
+  require('@webextension-toolbox/webpack-webextension-plugin').default;
 
 const appPath = path.resolve(workspaceRoot, 'apps/extension');
 
@@ -37,6 +39,8 @@ function getClientEnvironment() {
 
 // Nx plugins for webpack.
 module.exports = composePlugins(withNx(), (config, { options, context }) => {
+  const { outputPath, projectRoot, watch } = options;
+  // console.log(options, 'composePlugins');
   // Update the webpack config as needed here.
   // e.g. `config.plugins.push(new MyPlugin())`
   const __config = merge(config, {
@@ -51,12 +55,12 @@ module.exports = composePlugins(withNx(), (config, { options, context }) => {
       new CopyPlugin({
         patterns: [
           {
-            from: path.resolve(workspaceRoot, 'apps/extension/public'),
-            to: path.resolve(workspaceRoot, 'dist/apps/extension'),
+            from: path.resolve(workspaceRoot, `${projectRoot}/public`),
+            to: path.resolve(outputPath),
           },
           {
-            from: path.resolve(workspaceRoot, 'apps/extension/manifest.json'),
-            to: path.resolve(workspaceRoot, 'dist/apps/extension'),
+            from: path.resolve(workspaceRoot, `${projectRoot}/manifest.json`),
+            to: path.resolve(outputPath),
           },
         ],
       }),
@@ -65,6 +69,12 @@ module.exports = composePlugins(withNx(), (config, { options, context }) => {
         global: 'globalThis',
       }),
       new NodePolyfillPlugin(),
+      watch &&
+        new WebextensionPlugin({
+          vendor: 'chrome',
+          autoreload: true,
+          quiet: true,
+        }),
     ],
     module: {
       rules: [

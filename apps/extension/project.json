@@ -5,7 +5,6 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "dependsOn": ["login:dev"],
       "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
@@ -49,19 +48,47 @@
       }
     },
     "serve": {
-      "executor": "@nx/webpack:dev-server",
+      "executor": "@nx/webpack:webpack",
       "defaultConfiguration": "development",
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
       "options": {
-        "buildTarget": "extension:build",
-        "hmr": true
+        "compiler": "babel",
+        "outputPath": "dist/apps/extension-watch",
+        "baseHref": "/",
+        "main": "apps/extension/src/main.tsx",
+        "tsConfig": "apps/extension/tsconfig.app.json",
+        "assets": [
+          "apps/extension/src/favicon.ico",
+          "apps/extension/src/assets"
+        ],
+        "styles": ["apps/extension/src/styles.less"],
+        "scripts": [],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/extension/webpack.config.js",
+        "outputFileName": "content.js",
+        "runtimeChunk": false,
+        "extractCss": false,
+        "watch": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "extension:build:development"
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
         },
         "production": {
-          "buildTarget": "extension:build:production",
-          "hmr": false
+          "fileReplacements": [{
+            "replace": "apps/extension/src/environments/environment.ts",
+            "with": "apps/extension/src/environments/environment.prod.ts"
+          }],
+          "optimization": true,
+          "outputHashing": "media",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
         }
       }
     },
