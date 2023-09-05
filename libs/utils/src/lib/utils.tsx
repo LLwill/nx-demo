@@ -22,6 +22,9 @@ const {
   NX_WEB_PORT,
   NX_LOGIN_PATH,
   NX_TASK_TARGET_CONFIGURATION,
+  NX_SSE_DOMAIN,
+  NX_SSE_PORT,
+  NX_SSE_PATH,
 } = ENV;
 
 export const isExtension = !!(
@@ -31,6 +34,8 @@ export const isExtension = !!(
 export const API_DOMAIN = NX_API_DOMAIN;
 
 export const LOGIN_URL = `${NX_LOGIN_DOMAIN}:${NX_WEB_PORT}${NX_LOGIN_PATH}`;
+
+export const SSE_URL = `${NX_SSE_DOMAIN}:${NX_SSE_PORT}${NX_SSE_PATH}`;
 
 export const isDev = () =>
   NX_TASK_TARGET_CONFIGURATION &&

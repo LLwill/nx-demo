@@ -2,7 +2,7 @@
  * 网络请求异常处理程序
  */
 import { notification, message } from 'antd';
-import { setSessionValue, getSessionValue } from '@/utils/storage/storage';
+import { setSessionValue, getSessionValue } from '@/utils/storage';
 import { MSG_RESPONSE_ERROR } from '@/constants';
 
 /**

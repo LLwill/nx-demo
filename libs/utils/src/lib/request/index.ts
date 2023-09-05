@@ -5,11 +5,8 @@ import type {
   RequestOptionsInit,
   RequestOptionsWithoutResponse,
 } from 'umi-request';
-import {
-  errorHandler,
-  responseMiddleware,
-} from '@/utils/error-handlers/error-handlers';
-import { adaptor } from '@/utils/adaptor/adaptor';
+import { errorHandler, responseMiddleware } from '@/utils/error-handlers';
+import { adaptor } from '@/utils/adaptor';
 import { isExtension, API_DOMAIN } from '@/utils/utils';
 import { MSG_REQUEST } from '@/constants';
 

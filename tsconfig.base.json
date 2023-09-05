@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@/constants": ["libs/utils/constants.tsx"],
+      "@/types/*": ["types/*"],
       "@/utils/*": ["libs/utils/src/lib/*"],
       "@nx-demo/components": ["libs/components/src/index.ts"],
       "@nx-demo/configs": ["configs/src/index.ts"],

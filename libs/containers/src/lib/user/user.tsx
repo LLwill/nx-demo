@@ -1,6 +1,6 @@
 import styles from './user.module.less';
 
-import { RobotList } from '@nx-demo/packages';
+import { RobotList, SseBase } from '@nx-demo/packages';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'antd';
 
@@ -17,6 +17,7 @@ export function User(props: UserProps) {
       <div>这是user containers</div>
       <RobotList />
       <Button onClick={onhandleToHome}>container中回到首页</Button>
+      <SseBase />
     </div>
   );
 }
