@@ -17,7 +17,7 @@ export function User(props: UserProps) {
       <div>这是user containers</div>
       <RobotList />
       <Button onClick={onhandleToHome}>container中回到首页</Button>
-      <SseBase />
+      {/* <SseBase /> */}
     </div>
   );
 }

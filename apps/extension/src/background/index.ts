@@ -5,7 +5,15 @@ import {
   MSG_REQUEST_STREAM_PAUSE,
   MSG_OPEN_LOGIN,
 } from '@/constants';
-import { umiRequest, LOGIN_URL, ENV, isDev } from '@nx-demo/utils';
+import {
+  umiRequest,
+  LOGIN_URL,
+  ENV,
+  isDev,
+  __sseRequest,
+} from '@nx-demo/utils';
+
+let cancelSseFun: () => void;
 
 // manifest.json 的 Permissions配置需添加 declarativeContent 权限
 Browser.runtime.onInstalled.addListener(function (info) {
@@ -101,6 +109,37 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         top: topOffset,
       });
     }
+    if (type === MSG_REQUEST_STREAM_PAUSE) {
+      cancelSseFun?.();
+    }
   });
   return true;
+});
+
+Browser.runtime.onConnect.addListener(async (port) => {
+  port.onMessage.addListener(
+    async ({
+      type,
+      model,
+      data,
+    }: {
+      type: string;
+      model: string;
+      data: any;
+    }) => {
+      console.log(type, model, data, 'onConnect-onMessage-addListener');
+      try {
+        const { runSseRequest, cancelSseRequest } = __sseRequest('/sse', {
+          onSuccess: (res) => {
+            port?.postMessage(res);
+          },
+        });
+        runSseRequest();
+        cancelSseFun = cancelSseRequest;
+      } catch (err: any) {
+        console.error('打印报错信息', err);
+        port.postMessage({ error: err.message });
+      }
+    }
+  );
 });

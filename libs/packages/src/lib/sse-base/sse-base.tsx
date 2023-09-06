@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styles from './sse-base.module.less';
-import { fetchSSE } from '@/utils/fetch-sse/fetch-sse';
-import { SSE_URL } from '@/utils/utils';
+import { fetchSSE, SSE_URL } from '@nx-demo/utils';
 
 /* eslint-disable-next-line */
 export interface SseBaseProps {}

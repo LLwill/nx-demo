@@ -7,7 +7,7 @@ import { SSE_URL } from '@/utils/utils';
 export interface GenerateAnswerParams {
   model: string;
   data: SSE.PostConversationChatModelRequest;
-  onEvent: (event: Event) => void;
+  onEvent?: (event: Event) => void;
   signal?: AbortSignal;
   taskId: string;
 }
@@ -22,6 +22,11 @@ export interface Provider {
 export class ChatGPTProvider implements Provider {
   tasks: any = {};
 
+  getTasks() {
+    console.log(this.tasks, 'ChatGPTProvider-getTasks');
+    return this.tasks;
+  }
+
   async generateAnswer(params: GenerateAnswerParams) {
     const { taskId, model, data } = params;
 
@@ -32,6 +37,8 @@ export class ChatGPTProvider implements Provider {
     this.tasks[taskId] = {
       abortController,
     };
+
+    console.log(this.tasks, 'ChatGPTProvider-generateAnswer');
 
     const setTasks = (data: any) => {
       this.tasks[taskId] = {
@@ -56,12 +63,15 @@ export class ChatGPTProvider implements Provider {
         let parseData = {};
         try {
           parseData = JSON.parse(message || '{}');
-        } catch {}
+        } catch (e) {
+          console.warn('⚠️ sse 返回结果 parse 异常：', e);
+          parseData = message;
+        }
         if (isEmpty(parseData)) {
           return;
         }
         console.log(new Date(), '后台打印 message', parseData);
-        params.onEvent(parseData as any);
+        params?.onEvent?.(parseData as any);
       },
       timeout: 120 * 1000,
     });
@@ -69,7 +79,9 @@ export class ChatGPTProvider implements Provider {
   }
 
   cancelTask(taskId: string) {
-    const taskInfo = this.tasks[taskId];
+    const that = this;
+    console.log(taskId, that.tasks, 'ChatGPTProvider-cancelTask');
+    const taskInfo = that.tasks[taskId];
     if (!taskInfo) {
       return;
     }

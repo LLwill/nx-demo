@@ -1,6 +1,6 @@
 import styles from './home.module.less';
 
-import { Header, RobotList } from '@nx-demo/packages';
+import { Header, RobotList, SseDemo1 } from '@nx-demo/packages';
 import {
   setSessionValue,
   getSessionValue,
@@ -9,7 +9,7 @@ import {
 import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { getWelcome } from '@nx-demo/services';
-import useRequest from '@ahooksjs/use-request';
+import { useRequest } from 'ahooks';
 import { useNavigate } from 'react-router-dom';
 
 const _KEY_ = '__test__';
@@ -66,6 +66,7 @@ export function Home(props: HomeProps) {
       <Header />
       <Button onClick={onhandleToUser}>Container组件中的跳转user</Button>
       <RobotList />
+      <SseDemo1 />
     </div>
   );
 }
