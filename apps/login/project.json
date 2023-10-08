@@ -83,7 +83,8 @@
     "serve": {
       "executor": "@nx-demo/custom-plugins:dev",
       "options": {
-        "target": "_serve"
+        "target": "_serve",
+        "portEnvKey": "NX_TEST_PORT"
       }
     }
   },

@@ -9,6 +9,10 @@
       "type": "string",
       "default": "serve",
       "description": "指定运行的命令"
+    },
+    "portEnvKey": {
+      "type": "string",
+      "description": "指定运行的端口的环境变量的key"
     }
   },
   "required": []
